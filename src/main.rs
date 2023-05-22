@@ -255,7 +255,6 @@ fn main() {
            match pieceInPosition {
 
             Some(x) => row.push(x.clone()),
-            // The division was invalid
             None    => println!("Empty line"),
         }
         println!("{} ", row.len());
