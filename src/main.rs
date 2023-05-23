@@ -1,19 +1,19 @@
 use std::clone::Clone;
 fn main() {
     // create a struct to memorize the position of a chess board
-    #[derive(Clone, Copy)]
+    #[derive(Debug, Clone, Copy)]
     struct position {
         x: i32,
         y: i32,
     }
 
-    #[derive(Clone, Copy)]
+    #[derive(Debug, Clone, Copy)]
     enum color {
         Black,
         White
     } 
 
-    #[derive(Clone, Copy)]
+    #[derive(Debug, Clone, Copy)]
     enum chessType {
         Pawn,
         Rook,
@@ -236,30 +236,90 @@ fn main() {
         };
         chessPieces.push(whiteKing);
         chessPieces.push(blackKing);
-
-
     }
 
+    struct Knight {
+        Color: color,
+        Position: position,
+        alive: bool,
+    }
 
+    impl Knight{
+        fn movePiece(&mut self, newPosition: position) {
+            if(newPosition.x < 1 || newPosition.x > 8 || newPosition.y < 1 || newPosition.y > 8){
+                return;
+            }
+            self.Position = newPosition;
+        }
+    }
+
+struct Board {
+    knights: (Knight, Knight, Knight, Knight)
+
+}
+
+impl Board {
+    fn new() -> Board {
+        Board {
+            knights: (Knight {
+                Color: color::White,
+                Position: position {
+                    x: 1,
+                    y: 1,
+                },
+                alive: true,
+            },
+            Knight {
+                Color: color::White,
+                Position: position {
+                    x: 1,
+                    y: 1,
+                },
+                alive: true,
+            },
+            Knight {
+                Color: color::Black,
+                Position: position {
+                    x: 1,
+                    y: 1,
+                },
+                alive: true,
+            },
+            Knight {
+                Color: color::Black,
+                Position: position {
+                    x: 1,
+                    y: 1,
+                },
+                alive: true,
+            })
+        }
+    }
+}
     // generate a the board on the console printing 9 line and 9 column and see if the position is on the board
     // if the position is on the board, print the chess piece on the board
-    let mut row: Vec<chessPiece> = Vec::new();
     // if the position is not on the board, print nothing
     println!("a b c d e f g h");
     for i in 1..9 {  // cicle 8 row
-        print!("{:?} second lenght",   row[0].Position.x );
         let mut row: Vec<chessPiece> = Vec::new();
+       
+        
         for j in 1..9 {  // cicle 8 column
-           let mut pieceInPosition = chessPieces.iter()
+           let pieceInPosition: Option<&chessPiece> = chessPieces.iter()
            .find(|&p| p.Position.x == j && p.Position.y == i);
            match pieceInPosition {
 
             Some(x) => row.push(x.clone()),
-            None    => println!("Empty line"),
+            None    => {}
         }
-        println!("{} ", row.len());
         }
-        println!();
+
+
+        match row.get(0){
+            Some(x) => println!("{:?} ", x.Type),
+            None    => {},
+        }
+      
     }
 
 
