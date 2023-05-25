@@ -1,5 +1,6 @@
 use std::clone::Clone;
 use std::io;
+use std::str;
 fn main() {
     let mut stdin = io::stdin();
     #[derive(Debug, Clone, Copy)]
@@ -16,7 +17,7 @@ fn main() {
     struct ChessPiece {
         name: String,
         chessType: ChessType,
-        position: (i32, i32),
+        position: (usize, usize),
     }
 
     struct BoardRow {
@@ -63,8 +64,8 @@ fn main() {
         }
 
         fn move_pawn(&mut self, piece: ChessPiece) {
-            self.boardColumn[piece.position.0 as usize].row[piece.position.1 as usize] = None;
-            self.boardColumn[piece.position.0 as usize + 1 as usize].row[piece.position.1 as usize + 1 as usize] = Some(piece);
+            self.boardColumn[piece.position.0].row[piece.position.1] = None;
+            self.boardColumn[piece.position.0 + 1].row[piece.position.1] = Some(piece.clone());
         }
 
         // fn move_piece(self, piece: ChessPiece) {
@@ -91,4 +92,5 @@ fn main() {
     let mut chessPieceTemp = ChessPiece {chessType: ChessType::Pawn, name: "Queen".to_string(), position: (0,0)};
      stdin.read_line(&mut user_input);
      board.move_pawn(board.boardColumn[1].row[0].clone().unwrap());
+
 }
